@@ -19,14 +19,14 @@ router.get('/:id', async function(req,res){
 
 router.post('/register', async function(req,res) {
     try {
-        const {email, password} = req.body;
+        const {email, password, type} = req.body;
         
         const encryptedPassword = await bcrypt.hash(password,10)
 
-        const sqlQuery = 'INSERT INTO user (email, password) VALUES (?,?)';
-        const result = await pool.query(sqlQuery, [email, encryptedPassword]);
+        const sqlQuery = 'INSERT INTO user (email, password,type) VALUES (?,?,?)';
+        const result = await pool.query(sqlQuery, [email, encryptedPassword, type]);
 
-        res.status(200).json({userId: result.insertId});
+        res.status(200).json("Poslato");
     } catch (error) {
         res.status(400).send(error.message)
     }
@@ -34,19 +34,19 @@ router.post('/register', async function(req,res) {
 
 router.post('/login', async function(req,res) {
     try {
-        const {id,password} = req.body;
+        const {email,password} = req.body;
 
-        const sqlGetUser = 'SELECT password FROM user WHERE id=?';
-        const rows = await pool.query(sqlGetUser,id);
+        const sqlGetUser = 'SELECT password FROM user WHERE email=?';
+        const rows = await pool.query(sqlGetUser,email);
         if(rows){
             
             const isValid = await bcrypt.compare(password,rows[0].password)
             res.status(200).json({valid_password: isValid});
         }
-        res.status(200).send(`User with id ${id} was not found`);
+        res.status(200).send(`User with email ${email} was not found`);
         
     } catch (error) {
-        res.status(400).send(error.message)
+       // res.status(400).send(error.message)
     }
 })
 
