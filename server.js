@@ -19,11 +19,16 @@ app.use(express.urlencoded({extended:false}));
  */
 
 app.get('/', (request, response) => {
-    response.status(200).send("This is not why you're here. Head to /user/:id and replace :id with your user id")
+    response.status(200).send("Mozete otici na /user/:id")
 })
 
 const userRouter = require('./routes/user');
 app.use('/user',userRouter);
+
+const namirnicaRouter = require('./routes/namirnica');
+app.use('/namirnica',namirnicaRouter); 
+
+
 
 /**Start listening */
 app.listen(PORT, () => {

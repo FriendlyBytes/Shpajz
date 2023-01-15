@@ -12,6 +12,15 @@ const userSchema = Joi.object({
     password: Joi.string().min(3).max(10).required(),
     user_type: Joi.string().valid('mod', 'admin')
 });
+router.get('/', async function(req,res){
+    try {
+        const sqlQuery = 'SELECT * FROM user';
+        const rows = await pool.query(sqlQuery);
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+});
 router.get('/:id', async function(req,res){
     try {
         const sqlQuery = 'SELECT id, email, password, created_at, user_type FROM user WHERE id=?';
@@ -78,6 +87,17 @@ router.patch('/:id', async function(req,res) {
         return res.send("Vi ste moderator, nemate prava za ovu akciju")
     const encryptedPassword = await bcrypt.hash(req.body.password,10)
     const result = await pool.query(sqlQuery, [req.body.email, req.body.user_type, encryptedPassword, user_id]);
+    return res.send("Uspeh")
+
+})
+router.delete('/:id', async function(req,res) {
+    token = req.body.token;
+    const user_id = req.params.id;
+    rez = jwt.verify(token,"KristinaVoliNikolu")
+    if(rez.includes("mod"))
+        return res.send("Vi ste moderator, nemate prava za ovu akciju")
+    const sqlQuery = "DELETE FROM user WHERE id=?;";
+    const result = await pool.query(sqlQuery, [user_id]);
     return res.send("Uspeh")
 
 })
