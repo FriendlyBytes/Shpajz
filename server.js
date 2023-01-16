@@ -28,7 +28,15 @@ app.use('/user',userRouter);
 const namirnicaRouter = require('./routes/namirnica');
 app.use('/namirnica',namirnicaRouter); 
 
+const DijetaRouter = require('./routes/Dijeta');
+app.use('/Dijeta',DijetaRouter); 
 
+const ReceptRouter = require('./routes/Recept');
+app.use('/Recept',ReceptRouter);
+
+
+const UkusRouter = require('./routes/Ukus');
+app.use('/Ukus',UkusRouter);
 
 /**Start listening */
 app.listen(PORT, () => {
