@@ -34,6 +34,16 @@ app.use('/Dijeta',DijetaRouter);
 const ReceptRouter = require('./routes/Recept');
 app.use('/Recept',ReceptRouter);
 
+const ListaZaKupovinuRouter = require('./routes/ListaZaKupovinu');
+app.use('/ListaZaKupovinu',ListaZaKupovinuRouter);
+
+const NaListiRouter = require('./routes/NaListi');
+app.use('/NaListi',NaListiRouter);
+
+const UkusNamirnicaRouter = require('./routes/UkusNamirnica');
+app.use('/ListaZaKupovinu',UkusNamirnicaRouter);
+
+
 
 const UkusRouter = require('./routes/Ukus');
 app.use('/Ukus',UkusRouter);

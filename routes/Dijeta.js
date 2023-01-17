@@ -54,7 +54,26 @@ router.delete('/:id', async function(req,res) {
     const result = await pool.query(sqlQuery, [id]);
     return res.send("Uspeh")
 })
+router.patch('/:id', async function(req,res) {
+    try {
+        body = req.body
+        id = req.params.id
+        const {error,value} = DijetaSchema.validate(req.body);
+        Naziv = body.Naziv
+        Vlasnik = body.Vlasnik
+        if(error)
+        {
+            return res.send("Nisu dobro popunjeni parametri" + error);
+        }
+        const sqlQuery = 'UPDATE Dijeta SET Naziv =?, Vlasnik =? WHERE id = ?'
+        const result = await pool.query(sqlQuery, [Naziv, Vlasnik,id]);
 
+        res.status(200).json("Poslato");
+
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
 
 

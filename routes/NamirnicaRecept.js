@@ -23,8 +23,8 @@ router.post('/', async function(req,res) {
     try {
         body = req.body
         const {error,value} = NamirnicaReceptSchema.validate(req.body);
-        NamirnicaId= body.NamirnicaId
-        ListaId = body.ListaId
+        Namirnica_id= body.Namirnica_id
+        Recept_id = body.Recept_id
         if(error)
         {
             return res.send("Nisu dobro popunjeni parametri" + error);
@@ -46,7 +46,26 @@ router.delete('/', async function(req,res) {
     return res.send("Uspeh")
 })
 
+router.patch('/:id', async function(req,res) {
+    try {
+        body = req.body
+        id = req.params.id
+        const {error,value} = NamirnicaReceptSchema.validate(req.body);
+        Namirnica_id = body.Namirnica_id
+        Recept_id = body.Recept_id
+        if(error)
+        {
+            return res.send("Nisu dobro popunjeni parametri" + error);
+        }
+        const sqlQuery = 'UPDATE NamirnicaRecept SET Namirnica_id =?, Recept_id =? WHERE id = ?'
+        const result = await pool.query(sqlQuery, [Namirnica_id, Recept_id,id]);
 
+        res.status(200).json("Poslato");
+
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
 
 
